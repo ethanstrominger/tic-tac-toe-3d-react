@@ -16,7 +16,7 @@ const Messages = props => {
   useEffect(() => {
     getMessages(props) // returns promise to get messages
       .then(res => {
-        setMessages(res.data.messages)
+        setMessages(res.data)
       })
       .catch(error => {
         displayUnexpectedFailure(msgAlert, error, 'fetching')

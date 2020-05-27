@@ -2,12 +2,11 @@ import apiUrl from '../apiConfig'
 import axios from 'axios'
 
 const createMessage = (props, message) => {
-  console.log("ABC");
   return axios({
     url: `${apiUrl}/messages/create`,
-    method: 'POST'
-    ,
+    method: 'POST',
     data: message
+//    TODO: Authorization
 //    ,
 //    headers: {
 //      Authorization: `Bearer ${props.user.token}`
@@ -17,7 +16,7 @@ const createMessage = (props, message) => {
 
 const getMessages = (props) => {
   return axios({
-    url: `${apiUrl}/messages/`,
+    url: `${apiUrl}/messages/getbyuser/${props.user}`,
     method: 'get',
     headers: {
       Authorization: `Bearer ${props.user.token}`

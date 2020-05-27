@@ -26,8 +26,6 @@ const MessageCreate = props => {
 
     createMessage(props, message)
       .then(response => {
-         console.log("Message created")
-         console.log(response)
          setCreatedMessageId(response.data.id)
         })
       .catch(error => {
@@ -37,8 +35,6 @@ const MessageCreate = props => {
   }
 
   if (createdMessageId) {
-    console.log('c', createdMessageId)
-    console.log(message)
     return <Redirect to={`/messages/getbyuser/${createdMessageId}`} />
   }
 
