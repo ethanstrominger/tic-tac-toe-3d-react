@@ -5,7 +5,7 @@ import Footer from '../Footer/Footer'
 // The components are called by app.js
 const MainLayout = props => (
   <div>
-    <h1>Event Finder</h1>
+    <h1>Games</h1>
 
     {props.children}
 
