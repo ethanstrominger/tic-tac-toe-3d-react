@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import MainLayout from '../../MainLayout/MainLayout'
 import { getMessages } from '../../../api/messageApis'
 import { displayUnexpectedFailure } from '../../../utils'
@@ -29,10 +28,12 @@ const Messages = props => {
     displayMessages = <p>No messages.  Click on create to add a new one.</p>
   } else {
     displayMessages = messages.map(message => (
-      <li key={`message${messages.id}`}>
-        <Link to={`/messages/detail/${message.id}`}>{messages.id}</Link>
-        {` From: ${message.fromNickname} * To: ${message.toNickname} * Message: ${message.messageText} * Created: $(message.timeCreated`}
-      </li>
+      <div key={`message${messages.id} ${message.timeCreated}`}>
+        <p class="small"><strong>{` ${message.fromNickname}`}</strong></p>
+        <p class="small"><strong>{`To: ${message.toNickname}`}</strong></p>
+        <p class="small">{`${message.messageText}`}</p>
+        <p class="small">.</p>
+      </div>
     ))
   }
 
