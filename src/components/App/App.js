@@ -9,14 +9,8 @@ import SignUp from '../SignUp/SignUp'
 import SignIn from '../SignIn/SignIn'
 import SignOut from '../SignOut/SignOut'
 import ChangePassword from '../ChangePassword/ChangePassword'
-import Movies from '../Movies/Movies'
-import Movie from '../Movie/Movie'
-import MovieCreate from '../MovieCreate/MovieCreate'
-import MovieEdit from '../MovieEdit/MovieEdit'
-import EventSearches from '../EventComponents/EventSearches/EventSearches'
-import EventSearch from '../EventComponents/EventSearch/EventSearch'
-import EventSearchCreate from '../EventComponents/EventSearchCreate/EventSearchCreate'
-import EventSearchEdit from '../EventComponents/EventSearchEdit/EventSearchEdit'
+import Messages from '../MessageComponents/Messages/Messages'
+import MessageCreate from '../MessageComponents/MessageCreate/MessageCreate'
 import messages from '../AutoDismissAlert/messages'
 import { signIn } from '../../api/auth.js'
 
@@ -117,29 +111,11 @@ class App extends Component {
           <AuthenticatedRoute user={user} path='/change-password' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute exact user={user} path='/movies' render={() => (
-            <Movies msgAlert={this.msgAlert} user={user} />
+          <AuthenticatedRoute user={user} path='/messages' render={() => (
+            <Messages msgAlert={this.msgAlert} user={user} />
           )} />
-          <AuthenticatedRoute exact user={user} path='/movies/:id' render={({ match }) => (
-            <Movie match={match} msgAlert={this.msgAlert} user={user} />
-          )} />
-          <AuthenticatedRoute exact user={user} path='/movie-create' render={() => (
-            <MovieCreate msgAlert={this.msgAlert} user={user} />
-          )} />
-          <AuthenticatedRoute exact user={user} path='/movies/:id/edit' render={({ match }) => (
-            <MovieEdit match={match} msgAlert={this.msgAlert} user={user} />
-          )} />
-          <AuthenticatedRoute exact user={user} path='/event_searches' render={() => (
-            <EventSearches msgAlert={this.msgAlert} user={user} />
-          )} />
-          <AuthenticatedRoute exact user={user} path='/event_searches/:id' render={({ match }) => (
-            <EventSearch match={match} msgAlert={this.msgAlert} user={user} />
-          )} />
-          <AuthenticatedRoute exact user={user} path='/eventsearch-create' render={() => (
-            <EventSearchCreate msgAlert={this.msgAlert} user={user} />
-          )} />
-          <AuthenticatedRoute exact user={user} path='/event_searches/:id/edit' render={({ match }) => (
-            <EventSearchEdit match={match} msgAlert={this.msgAlert} user={user} />
+          <AuthenticatedRoute exact user={user} path='/message-create' render={() => (
+            <MessageCreate msgAlert={this.msgAlert} user={user} />
           )} />
         </main>
       </Fragment>

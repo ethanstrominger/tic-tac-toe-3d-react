@@ -6,8 +6,8 @@ const authenticatedOptions = (
   <Fragment>
     <Nav.Link href="#change-password">Change Password</Nav.Link>
     <Nav.Link href="#sign-out">Sign Out</Nav.Link>
-    <Nav.Link href="#event_searches">View Event Searches</Nav.Link>
-    <Nav.Link href="#eventsearch-create">Create An Event Search</Nav.Link>
+    <Nav.Link href="#messages">View Messages</Nav.Link>
+    <Nav.Link href="#message-create">Create A Message</Nav.Link>
   </Fragment>
 )
 

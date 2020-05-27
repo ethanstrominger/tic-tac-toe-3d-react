@@ -16,16 +16,19 @@ export const signUp = credentials => {
 }
 
 export const signIn = credentials => {
-  return axios({
-    url: apiUrl + '/sign-in',
-    method: 'POST',
-    data: {
-      credentials: {
-        email: credentials.email,
-        password: credentials.password
+  return new Promise((resolve) => {
+    resolve ( {
+      url: apiUrl + '/sign-in',
+      method: 'POST',
+      data: {
+        user: credentials.email,
+        credentials: {
+          email: credentials.email,
+          password: credentials.password
+        }
       }
-    }
-  })
+    })
+  });
 }
 
 export const signOut = user => {
