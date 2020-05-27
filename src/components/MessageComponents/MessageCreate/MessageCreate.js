@@ -28,7 +28,7 @@ const MessageCreate = props => {
          setCreatedMessageId(response.data.id)
         })
       .catch(error => {
-        console.log(error);
+        console.log(error)
         displayUnexpectedFailure(msgAlert, error, 'saving')
       })
   }

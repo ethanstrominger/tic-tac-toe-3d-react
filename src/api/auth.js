@@ -28,7 +28,7 @@ export const signIn = credentials => {
         }
       }
     })
-  });
+  })
 }
 
 export const signOut = user => {
