@@ -23,7 +23,6 @@ const MessageCreate = props => {
 
   const handleSubmit = event => {
     event.preventDefault()
-
     createMessage(props, message)
       .then(response => {
          setCreatedMessageId(response.data.id)
@@ -37,10 +36,10 @@ const MessageCreate = props => {
   if (createdMessageId) {
     return <Redirect to={`/messages/getbyuser/${createdMessageId}`} />
   }
-
   return (
     <MainLayout>
       <MessageForm
+        currentUser={props.user}
         message={message}
         handleChange={handleChange}
         handleSubmit={handleSubmit}

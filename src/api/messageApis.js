@@ -2,6 +2,7 @@ import apiUrl from '../apiConfig'
 import axios from 'axios'
 
 const createMessage = (props, message) => {
+  message.fromNickname = props.user
   return axios({
     url: `${apiUrl}/messages/create`,
     method: 'POST',

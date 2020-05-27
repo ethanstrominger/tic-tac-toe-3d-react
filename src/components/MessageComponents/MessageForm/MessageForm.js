@@ -2,8 +2,8 @@ import React from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 
-const MessageForm = ({ message, handleSubmit, handleChange }) => (
-  <div className="row">
+const MessageForm = ({ currentUser, message, handleSubmit, handleChange }) => {
+  return <div className="row">
     <div className="col-sm-10 col-md-8 mx-auto mt-5">
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="fromNickname">
@@ -11,7 +11,8 @@ const MessageForm = ({ message, handleSubmit, handleChange }) => (
           <Form.Control
             placeholder="Your nickname"
             name="fromNickname"
-            value={message.fromNickname || ''}
+            type="hidden"
+            value={message.fromNickname || currentUser}
             onChange={handleChange}
             required
           />
@@ -45,6 +46,6 @@ const MessageForm = ({ message, handleSubmit, handleChange }) => (
       </Form>
     </div>
   </div>
-)
+}
 
 export default MessageForm

@@ -21,20 +21,22 @@ const Messages = props => {
         displayUnexpectedFailure(msgAlert, error, 'fetching')
       })
   }, [])
-
   // ==== Display messages ====
   let displayMessages
   if (messages.length === 0) {
     displayMessages = <p>No messages.  Click on create to add a new one.</p>
   } else {
-    displayMessages = messages.map(message => (
-      <div key={`message${messages.id} ${message.timeCreated}`}>
-        <p class="small"><strong>{` ${message.fromNickname}`}</strong></p>
-        <p class="small"><strong>{`To: ${message.toNickname}`}</strong></p>
+    displayMessages = messages.map(message => {
+      const fromText = message.fromNickname === props.user ? "":`From: ${message.fromNickname}`
+      const toText = message.toNickname === props.user ? "":`To: ${message.toNickname}`
+      // const fromText = message.fromNickname == props.user ? "":`From: ${message.fromNickname`
+      return <div key={`message${message.id}`}>
+        <p class="small"><strong>{fromText}</strong></p>
+        <p class="small"><strong>{toText}</strong></p>
         <p class="small">{`${message.messageText}`}</p>
         <p class="small">.</p>
       </div>
-    ))
+    })
   }
 
   // === return fragment with a h4 and the list of messages.
