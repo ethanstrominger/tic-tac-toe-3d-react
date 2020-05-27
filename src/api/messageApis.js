@@ -2,15 +2,16 @@ import apiUrl from '../apiConfig'
 import axios from 'axios'
 
 const createMessage = (props, message) => {
+  console.log("ABC");
   return axios({
-    url: `${apiUrl}/messages/`,
-    method: 'POST',
-    data: {
-      message: message
-    },
-    headers: {
-      Authorization: `Bearer ${props.user.token}`
-    }
+    url: `${apiUrl}/messages/create`,
+    method: 'POST'
+    ,
+    data: message
+//    ,
+//    headers: {
+//      Authorization: `Bearer ${props.user.token}`
+//    }
   })
 }
 

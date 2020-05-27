@@ -7,7 +7,7 @@ const MessageForm = ({ message, handleSubmit, handleChange }) => (
     <div className="col-sm-10 col-md-8 mx-auto mt-5">
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="fromNickname">
-          <Form.Label>Source</Form.Label>
+          <Form.Label>From</Form.Label>
           <Form.Control
             placeholder="Your nickname"
             name="fromNickname"
@@ -17,7 +17,7 @@ const MessageForm = ({ message, handleSubmit, handleChange }) => (
           />
         </Form.Group>
         <Form.Group controlId="toNickname">
-          <Form.Label>Source</Form.Label>
+          <Form.Label>To</Form.Label>
           <Form.Control
             placeholder="Send to (nickname)"
             name="toNickname"
@@ -27,7 +27,7 @@ const MessageForm = ({ message, handleSubmit, handleChange }) => (
           />
         </Form.Group>
         <Form.Group controlId="messageText">
-          <Form.Label>Source</Form.Label>
+          <Form.Label>Message</Form.Label>
           <Form.Control
             placeholder="Message"
             name="messageText"

@@ -2,7 +2,7 @@ let apiUrl
 // template instructions: configure here
 const apiUrls = {
   production: 'https://mysterious-dusk-65019.herokuapp.com',
-  development: 'http://localhost:4741'
+  development: 'http://localhost:8080'
   // development: 'https://movie-auth-api.herokuapp.com'
 }
 

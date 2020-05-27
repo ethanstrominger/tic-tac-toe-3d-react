@@ -25,16 +25,21 @@ const MessageCreate = props => {
     event.preventDefault()
 
     createMessage(props, message)
-      .then(res => {
-        setCreatedMessageId(res.data.message.id)
-      })
+      .then(response => {
+         console.log("Message created")
+         console.log(response)
+         setCreatedMessageId(response.data.id)
+        })
       .catch(error => {
+        console.log(error);
         displayUnexpectedFailure(msgAlert, error, 'saving')
       })
   }
 
   if (createdMessageId) {
-    return <Redirect to={`/messages/${createdMessageId}`} />
+    console.log('c', createdMessageId)
+    console.log(message)
+    return <Redirect to={`/messages/getbyuser/${createdMessageId}`} />
   }
 
   return (
