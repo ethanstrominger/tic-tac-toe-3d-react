@@ -40,23 +40,34 @@ const Messages = props => {
   // setter function for component
   const { msgAlert } = props
   const [messages, setMessages] = useState([])
+  function poll() {
+           console.log("polling")
+           console.log(messages)
+           getlisten(props) // returns promise to get messages
+             .then((err,res) => {
+                 console.log("Listen",err,"res",res);
+                  //        setMessages(res.data)
+               })
+             .catch((error,res) => {
+               setTimeout(poll,1000)
+               console.log("Error",error, "Res",res);
+               // displayUnexpectedFailure(msgAlert, error, 'fetching')
+             })
+  }
 
   // ==== Fetch messages into messages variable ===
   // NOTE on React Hook: useEffect: syntax by React Hooks. Code is called when component mounts,
   // or is updated
   useEffect(() => {
+    console.log("Getting messages")
     getMessages(props) // returns promise to get messages
       .then(res => {
         setMessages(res.data)
-        getlisten(props) // returns promise to get messages
-         .then((err,res) => {
-           console.log("Listen",err,"res",res);
-             //        setMessages(res.data)
-          })
-          .catch((error,res) => {
-            console.log("Error",error, "Res",res);
-            // displayUnexpectedFailure(msgAlert, error, 'fetching')
-          })
+        console.log("While true")
+        poll()
+
+
+
       })
 
 
