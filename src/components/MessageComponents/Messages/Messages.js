@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import MainLayout from '../../MainLayout/MainLayout'
-import { getMessages } from '../../../api/messageApis'
+import { getMessages, getMessageNotifications } from '../../../api/messageApis'
 import { displayUnexpectedFailure } from '../../../utils'
 
 function formatDate(dateMilliseconds) {
     var myDate = new Date(dateMilliseconds);
-
     var month=[]
     month[0]="Jan"
     month[1]="Feb"
@@ -31,13 +30,32 @@ function formatDate(dateMilliseconds) {
     var strDate = `${myDate.getDate()} ${month[myDate.getMonth()]} ${myDate.getFullYear()}`
     // e.g. "13 Nov 2016 11:00pm"
     return strDate + " "+strTime
-
 }
+
+
+
 const Messages = props => {
   // NOTE on React Hook: useState is used by React Hooks to create state variables and
   // setter function for component
   const { msgAlert } = props
   const [messages, setMessages] = useState([])
+
+  function pollForNotifications() {
+    getMessageNotifications(props) // returns promise to get messages
+      .then((error,res) => {
+        getMessages(props) // returns promise to get messages
+        .then(res => {
+
+           setMessages(res.data)
+           setTimeout(pollForNotifications,3000)
+         })
+       })
+       .catch((error,res) => {
+         setTimeout(pollForNotifications,3000)
+         // displayUnexpectedFailure(msgAlert, error, 'fetching')
+       })
+  }
+
 
   // ==== Fetch messages into messages variable ===
   // NOTE on React Hook: useEffect: syntax by React Hooks. Code is called when component mounts,
@@ -46,6 +64,7 @@ const Messages = props => {
     getMessages(props) // returns promise to get messages
       .then(res => {
         setMessages(res.data)
+        pollForNotifications();
       })
       .catch(error => {
         displayUnexpectedFailure(msgAlert, error, 'fetching')
