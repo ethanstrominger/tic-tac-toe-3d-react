@@ -25,8 +25,14 @@ const getMessages = (props) => {
   })
 }
 
-
+const listen = (props) => {
+return axios({
+                             url: `${apiUrl}/messages/listen/${props.user}`,
+                             method: 'GET'
+                             });
+                             }
 export {
   createMessage,
-  getMessages
+  getMessages,
+  listen
 }

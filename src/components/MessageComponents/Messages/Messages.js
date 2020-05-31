@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import MainLayout from '../../MainLayout/MainLayout'
 import { getMessages } from '../../../api/messageApis'
+import { listen } from '../../../api/messageApis'
 import { displayUnexpectedFailure } from '../../../utils'
 
 function formatDate(dateMilliseconds) {
@@ -33,12 +34,52 @@ function formatDate(dateMilliseconds) {
     return strDate + " "+strTime
 
 }
+async function subscribe(props) {
+  let x = 0
+  while (true) {
+    x = x+1
+    console.log("Getting")
+    let status
+    try {
+      console.log("Listen")
+      let response = await(listen(props))
+      console.log("Success")
+      status = response.status
+    } catch (error) {
+      console.log("Caught",error.status,error)
+      status = error.status
+      console.log("Status",status)
+    }
+    console.log("Looping", status);
+
+    if (status === 502) {
+      // Status 502 is a connection timeout error,
+      // may happen when the connection was pending for too long,
+      // and the remote server or a proxy closed it
+      // let's reconnect
+       console.log("Network error")
+      await new Promise(resolve => setTimeout(resolve, 500));
+    } else if (status >= 300) {
+      // An error - let's show it
+      // Reconnect in one second
+      console.log("Oops here")
+      await new Promise(resolve => setTimeout(resolve, 500));
+    } else {
+      // Get and show the message
+      console.log("Here now",status)
+      return
+    }
+  }
+}
+
 const Messages = props => {
   // NOTE on React Hook: useState is used by React Hooks to create state variables and
   // setter function for component
   const { msgAlert } = props
   const [messages, setMessages] = useState([])
+  console.log('A',props);
 
+  console.log('B')
   // ==== Fetch messages into messages variable ===
   // NOTE on React Hook: useEffect: syntax by React Hooks. Code is called when component mounts,
   // or is updated
@@ -50,6 +91,26 @@ const Messages = props => {
       .catch(error => {
         displayUnexpectedFailure(msgAlert, error, 'fetching')
       })
+      console.log('AAAAAAA')
+        subscribe(props)
+        .then (res =>  {
+          console.log('Woohoo')
+
+    getMessages(props) // returns promise to get messages
+      .then(res => {
+        console.log("Let's retriggeradfasdfadsfdsfadsf")
+        console.log(res.data)
+        setMessages(res.data)
+      })
+      .then(res => {
+         console.log('Subscribe again')
+         subscribe(props)
+      })
+      .catch(error => {
+        displayUnexpectedFailure(msgAlert, error, 'fetching')
+      })
+
+        })
   }, [])
   // ==== Display messages ====
   let displayMessages
