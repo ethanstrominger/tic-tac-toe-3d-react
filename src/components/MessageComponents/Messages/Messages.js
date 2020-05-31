@@ -53,9 +53,9 @@ const Messages = props => {
            console.log("Listen",err,"res",res);
              //        setMessages(res.data)
           })
-          .catch(error => {
-            console.log("Error");
-            displayUnexpectedFailure(msgAlert, error, 'fetching')
+          .catch((error,res) => {
+            console.log("Error",error, "Res",res);
+            // displayUnexpectedFailure(msgAlert, error, 'fetching')
           })
       })
 
