@@ -32,8 +32,6 @@ function formatDate(dateMilliseconds) {
     return strDate + " "+strTime
 }
 
-
-
 const Messages = props => {
   // NOTE on React Hook: useState is used by React Hooks to create state variables and
   // setter function for component
@@ -41,16 +39,20 @@ const Messages = props => {
   const [messages, setMessages] = useState([])
 
   function pollForNotifications() {
+
+    if (window.location.href.match(/messages$/) === null) {
+      return
+    }
     getMessageNotifications(props) // returns promise to get messages
       .then((error,res) => {
         getMessages(props) // returns promise to get messages
         .then(res => {
-
            setMessages(res.data)
            setTimeout(pollForNotifications,3000)
          })
        })
        .catch((error,res) => {
+         console.log(window.location)
          setTimeout(pollForNotifications,3000)
          // displayUnexpectedFailure(msgAlert, error, 'fetching')
        })
