@@ -25,8 +25,18 @@ const getMessages = (props) => {
   })
 }
 
+const getlisten = (props) => {
+  return axios({
+    url: `${apiUrl}/messages/listen/${props.user}`,
+    method: 'get',
+    headers: {
+      Authorization: `Bearer ${props.user.token}`
+    }
+  })
+}
 
 export {
   createMessage,
-  getMessages
+  getMessages,
+  getlisten
 }

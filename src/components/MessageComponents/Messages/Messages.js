@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import MainLayout from '../../MainLayout/MainLayout'
 import { getMessages } from '../../../api/messageApis'
+import { getlisten } from '../../../api/messageApis'
 import { displayUnexpectedFailure } from '../../../utils'
+
 
 function formatDate(dateMilliseconds) {
     var myDate = new Date(dateMilliseconds);
@@ -46,11 +48,22 @@ const Messages = props => {
     getMessages(props) // returns promise to get messages
       .then(res => {
         setMessages(res.data)
+        getlisten(props) // returns promise to get messages
+         .then((err,res) => {
+           console.log("Listen",err,"res",res);
+             //        setMessages(res.data)
+          })
+          .catch(error => {
+            console.log("Error");
+            displayUnexpectedFailure(msgAlert, error, 'fetching')
+          })
       })
-      .catch(error => {
+
+
+      .catch((error,res) => {
+        console.log("Error",error,"Res",res)
         displayUnexpectedFailure(msgAlert, error, 'fetching')
-      })
-  }, [])
+      })  }, [])
   // ==== Display messages ====
   let displayMessages
   if (messages.length === 0) {
