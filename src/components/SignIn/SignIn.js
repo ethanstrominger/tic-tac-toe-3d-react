@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 
 import { signIn } from '../../api/auth'
 import messages from '../AutoDismissAlert/messages'
+import { socketConnect } from '../../api/socketApis'
 
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
@@ -21,26 +22,30 @@ class SignIn extends Component {
     [event.target.name]: event.target.value
   })
 
-  onSignIn = event => {
+  onSignIn = async(event) => {
     event.preventDefault()
 
     const { msgAlert, history, setUser } = this.props
-    signIn(this.state)
-      .then(res => setUser(res.data.user))
-      .then(() => msgAlert({
+    try {
+      const credentials = { email: this.state.email, password: this.state.password }
+      const res = await signIn(credentials);
+      setUser(res.data.user)
+      await socketConnect()
+      msgAlert({
         heading: 'Sign In Success',
         message: messages.signInSuccess,
         variant: 'success'
-      }))
-      .then(() => history.push('/'))
-      .catch(error => {
+      });           
+      history.push('/');
+    } catch(error) {
         this.setState({ email: '', password: '' })
         msgAlert({
-          heading: 'Sign In Failed with error: ' + error.message,
+          heading: 'Sign In Failed with error: ' + (error.message || error),
           message: messages.signInFailure,
           variant: 'danger'
         })
-      })
+    }
+      
   }
 
   render () {

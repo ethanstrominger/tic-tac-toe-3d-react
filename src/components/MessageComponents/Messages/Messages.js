@@ -39,7 +39,6 @@ const Messages = props => {
   const [messages, setMessages] = useState([])
 
   function pollForNotifications() {
-
     if (window.location.href.match(/messages$/) === null) {
       return
     }
@@ -52,7 +51,6 @@ const Messages = props => {
          })
        })
        .catch((error,res) => {
-         console.log(window.location)
          setTimeout(pollForNotifications,3000)
          // displayUnexpectedFailure(msgAlert, error, 'fetching')
        })

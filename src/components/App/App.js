@@ -13,6 +13,7 @@ import Messages from '../MessageComponents/Messages/Messages'
 import MessageCreate from '../MessageComponents/MessageCreate/MessageCreate'
 import messages from '../AutoDismissAlert/messages'
 import { signIn } from '../../api/auth.js'
+import { socketConnect } from '../../api/socketApis'
 
 // We want to have state at the highest level possible in our app
 // So `App` is a class component
@@ -38,6 +39,7 @@ class App extends Component {
     }
     signIn(credentials)
       .then(res => this.setUser(res.data.user))
+      .then(socketConnect())
       .then(() => this.msgAlert({
         heading: 'Auto Sign In Success',
         message: messages.signInSuccess,

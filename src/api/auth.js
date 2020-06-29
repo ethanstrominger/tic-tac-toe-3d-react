@@ -1,7 +1,7 @@
 import apiUrl from '../apiConfig'
 import axios from 'axios'
 
-export const signUp = credentials => {
+function signUp (credentials) {
   return axios({
     method: 'POST',
     url: apiUrl + '/sign-up',
@@ -15,7 +15,7 @@ export const signUp = credentials => {
   })
 }
 
-export const signIn = credentials => {
+function signIn (credentials) {
   return new Promise((resolve) => {
     resolve ( {
       url: apiUrl + '/sign-in',
@@ -31,7 +31,7 @@ export const signIn = credentials => {
   })
 }
 
-export const signOut = user => {
+function signOut (user) {
   return axios({
     url: apiUrl + '/sign-out',
     method: 'DELETE',
@@ -41,7 +41,7 @@ export const signOut = user => {
   })
 }
 
-export const changePassword = (passwords, user) => {
+function changePassword (passwords, user) {
   return axios({
     url: apiUrl + '/change-password',
     method: 'PATCH',
@@ -56,3 +56,5 @@ export const changePassword = (passwords, user) => {
     }
   })
 }
+
+export { signIn, signOut, signUp, changePassword}
