@@ -44,8 +44,8 @@ class GameSocketConnection {
     }
 
     static sendMessage(message) {
-        console.log('Sending')
-        this.stompClient.send("/app/hello", {}, JSON.stringify({'name': message}));
+        console.log('Sendingcad2',this.stompClient,'asdf')
+        this.stompClient.send("/app/hello", {}, JSON.stringify({'name': `${message.fromNickname} ${message.toNickName} ${message.messageText}`}));
     }
 
     static async initializeConnection(user) {
