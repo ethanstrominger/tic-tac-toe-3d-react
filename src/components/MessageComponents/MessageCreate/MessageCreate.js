@@ -5,6 +5,7 @@ import { createMessage } from '../../../api/messageApis'
 import MessageForm from '../MessageForm/MessageForm'
 import MainLayout from '../../MainLayout/MainLayout'
 import { displayUnexpectedFailure} from '../../../utils'
+import GameSocketConnection from '../../../GameSocketConnection'
 
 const MessageCreate = props => {
   const { msgAlert } = props
@@ -27,6 +28,9 @@ const MessageCreate = props => {
       .then(response => {
          setCreatedMessageId(response.data.id)
         })
+        .then( response => 
+          { GameSocketConnection.sendMessage(message);
+          })      
       .catch(error => {
         console.log(error)
         displayUnexpectedFailure(msgAlert, error, 'saving')

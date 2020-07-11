@@ -19,6 +19,7 @@ import SockJS from 'sockjs-client';
 
 class GameSocketConnection {
 
+    // TODO: Singleton or static
     // constructor for singleton pattern.  See https://dev.to/tomekbuszewski/singleton-in-javascript-1d5i
     // constructor() {
     //     if (!!GameSocketConnection.instance) {
@@ -30,18 +31,44 @@ class GameSocketConnection {
     //     return this;
     // }
 
-    static async initializeConnection() {
-        return new Promise((resolve, reject) => {
-            const socket = new SockJS('http://localhost:8080/socket-endpoint');
+    static server = 'http://localhost:8080'
+
+    // TODO: Can I get rid of user?
+    static subscribeToUser(user, callback) {
+        console.log(`Subscribing to ${this.server}/socket-subscribe/user/${user}`)
+        // const subscribeUrl = `${this.server}/socket-subscribe/user/${user}`
+        const subscribeUrl = "/topic/greeting"
+        this.userSubscription = this.stompClient.subscribe(subscribeUrl, function (greeting) {console.log("Received")})
+        // TODO: this.userSubscription is not used anywhere - make a note somewhere?
+        return this.userSubscription
+    }
+
+    static sendMessage(message) {
+        console.log('Sending')
+        this.stompClient.send("/app/hello", {}, JSON.stringify({'name': message}));
+    }
+
+    static async initializeConnection(user) {
+        // return new Promise((resolve, reject) => {
+            const url = `${this.server}/gs-guide-websocket` 
+            console.log(url);
+            const socket = new SockJS(url);
             this.stompClient = Stomp.over(socket);
-            this.userInfo = {user: ''}
+            this.userInfo = {user: user}
             console.log('Connecting')
             this.stompClient.connect(
                 this.userInfo, 
-                frame => resolve (frame),
-                error => reject (error)
+                frame => {
+                    console.log('Subscribing')
+                    // const subscribeUrl = `${this.server}/socket-subscribe/user/${user}`
+                    const subscribeUrl = "/topic/greetings"
+                    this.userSubscription = this.stompClient.subscribe(subscribeUrl, function (greeting) {console.log("Received")})
+                    // TODO: this.userSubscription is not used anywhere - make a note somewhere?
+                    // resolve (frame)
+                }
             )
-        })
+            
+        // })
     }
 
     }

@@ -5,7 +5,7 @@ const createMessage = (props, message) => {
   message.fromNickname = props.user
   return axios({
 //    url: `${apiUrl}/messages/send/user/${message.toNickname}`,
-    url: `${apiUrl}/messages/create`,
+    url: `${apiUrl}/messages/create/${message.toNickname}`,
     method: 'POST',
     data: message
 //    TODO: Authorization

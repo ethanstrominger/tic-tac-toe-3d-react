@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import MainLayout from '../../MainLayout/MainLayout'
-import { getMessages, getMessageNotifications } from '../../../api/messageApis'
+import { getMessages } from '../../../api/messageApis'
 import { displayUnexpectedFailure } from '../../../utils'
+import GameSocketConnection from '../../../GameSocketConnection';
 
 function formatDate(dateMilliseconds) {
     var myDate = new Date(dateMilliseconds);
@@ -38,21 +39,18 @@ const Messages = props => {
   const { msgAlert } = props
   const [messages, setMessages] = useState([])
 
-  function pollForNotifications() {
-    if (window.location.href.match(/messages$/) === null) {
-      return
-    }
-    getMessageNotifications(props) // returns promise to get messages
-      .then((error,res) => {
+  function displayMessages(props) {
+  //  getMessageNotifications(props) // returns promise to get messages
+  //      .then((error,res) => {
+        console.log('displaying messages')
         getMessages(props) // returns promise to get messages
         .then(res => {
            setMessages(res.data)
-           setTimeout(pollForNotifications,3000)
          })
-       })
+      //  })
        .catch((error,res) => {
-         setTimeout(pollForNotifications,3000)
-         // displayUnexpectedFailure(msgAlert, error, 'fetching')
+        //  setTimeout(pollForNotifications,3000)
+         displayUnexpectedFailure(msgAlert, error, 'fetching')
        })
   }
 
@@ -61,21 +59,21 @@ const Messages = props => {
   // NOTE on React Hook: useEffect: syntax by React Hooks. Code is called when component mounts,
   // or is updated
   useEffect(() => {
-    getMessages(props) // returns promise to get messages
-      .then(res => {
-        setMessages(res.data)
-        pollForNotifications();
-      })
-      .catch(error => {
-        displayUnexpectedFailure(msgAlert, error, 'fetching')
-      })
-  }, [])
+    displayMessages(props)
+    // GameSocketConnection.subscribeToUser(props.user, () => {
+    //   console.log('Here')
+    //   getMessages(props)
+    //   console.log('there')
+    // })
+  },[]);
+
+
   // ==== Display messages ====
-  let displayMessages
+  let messagesHtml
   if (messages.length === 0) {
-    displayMessages = <p>No messages.  Click on create to add a new one.</p>
+    messagesHtml = <p>No messages.  Click on create to add a new one.</p>
   } else {
-    displayMessages = messages.map(message => {
+    messagesHtml = messages.map(message => {
       const dateText = formatDate(message.timeCreated)
       const fromText = message.fromNickname === props.user ? "":`From: ${message.fromNickname} ${dateText}`
       const toText = message.toNickname === props.user ? "":`To: ${message.toNickname} ${dateText}`
@@ -94,7 +92,7 @@ const Messages = props => {
     <MainLayout>
       <h4>Messages</h4>
       <ul>
-        {displayMessages}
+        {messagesHtml}
       </ul>
     </MainLayout>
   )
