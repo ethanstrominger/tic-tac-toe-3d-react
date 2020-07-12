@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import MainLayout from '../../MainLayout/MainLayout'
 import { getMessages } from '../../../api/messageApis'
 import { displayUnexpectedFailure } from '../../../utils'
-import GameSocketConnection from '../../../GameSocketConnection';
 
 function formatDate(dateMilliseconds) {
     var myDate = new Date(dateMilliseconds);
