@@ -37,20 +37,20 @@ class GameSocketConnection {
     static subscribeToUser(user, callback) {
         console.log(`Subscribing to ${this.server}/socket-subscribe/user/${user}`)
         // const subscribeUrl = `${this.server}/socket-subscribe/user/${user}`
-        const subscribeUrl = "/topic/greeting"
-        this.userSubscription = this.stompClient.subscribe(subscribeUrl, function (greeting) {console.log("Received")})
+        const subscribeUrl = "/message-from-server-to-client/uuser"
+        this.userSubscription = this.stompClient.subscribe(subscribeUrl, function (greeting) {console.log(greeting)})
         // TODO: this.userSubscription is not used anywhere - make a note somewhere?
         return this.userSubscription
     }
 
     static sendMessage(message) {
         console.log('Sendingcad2',this.stompClient,'asdf')
-        this.stompClient.send("/app/hello", {}, JSON.stringify({'name': `${message.fromNickname} ${message.toNickName} ${message.messageText}`}));
+        this.stompClient.send("/message-from-client-to-server/user", {}, JSON.stringify({'name': `${message.fromNickname} ${message.toNickName} ${message.messageText}`}));
     }
 
     static async initializeConnection(user) {
         // return new Promise((resolve, reject) => {
-            const url = `${this.server}/gs-guide-websocket` 
+            const url = `${this.server}/message-endpoint` 
             console.log(url);
             const socket = new SockJS(url);
             this.stompClient = Stomp.over(socket);
@@ -61,8 +61,9 @@ class GameSocketConnection {
                 frame => {
                     console.log('Subscribing')
                     // const subscribeUrl = `${this.server}/socket-subscribe/user/${user}`
-                    const subscribeUrl = "/topic/greetings"
-                    this.userSubscription = this.stompClient.subscribe(subscribeUrl, function (greeting) {console.log("Received")})
+                    const subscribeUrl = "/message-from-server-to-client/user"
+                    console.log('Subscribing',subscribeUrl)
+                    this.userSubscription = this.stompClient.subscribe(subscribeUrl, function (greeting) {console.log("Received".greeting)})
                     // TODO: this.userSubscription is not used anywhere - make a note somewhere?
                     // resolve (frame)
                 }
